@@ -1,12 +1,15 @@
-# DragonflyImage
+# ScopedAssociations
 
-DragonflyImage lets you associate any model with multiple images
+[![Build Status](https://travis-ci.org/stefanoverna/scoped_associations.png?branch=master)](https://travis-ci.org/stefanoverna/scoped_associations)
+
+ScopedAssociations is able to create multiple `has_to` and `has_many`
+associations between two ActiveRecord models.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'dragonfly_image'
+    gem 'scoped_associations'
 
 And then execute:
 
@@ -14,7 +17,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install dragonfly_image
+    $ gem install scoped_associations
 
 ## Usage
 

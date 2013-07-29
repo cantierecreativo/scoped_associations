@@ -1,73 +1,143 @@
 require 'spec_helper'
 
-describe 'DragonflyGallery' do
-  let(:tag_name) { "Foobar" }
+describe 'ScopedAssociations' do
   let(:post) { Post.new }
 
-  describe "has_one_image" do
-    it "works with direct assignment" do
-      post.secondary_tag = Tag.new(name: tag_name)
-      post.save!
-      post.reload
+  context "non polymorphic" do
+    describe "has_one" do
+      it "works with direct assignment" do
+        post.secondary_comment = Comment.new(comment: "foo")
+        post.save!
+        post.reload
 
-      expect(post.secondary_tag).to be_present
-      expect(post.primary_tag).to be_nil
+        expect(post.secondary_comment).to be_present
+        expect(post.primary_comment).to be_nil
+      end
+
+      it "works with nested attributes" do
+        post = Post.new(primary_comment_attributes: { comment: "foo" })
+        post.save!
+        post.reload
+
+        expect(post.primary_comment).to be_present
+        expect(post.secondary_comment).to be_nil
+      end
+
+      it "works with .build" do
+        post.build_secondary_comment(comment: "foo")
+        post.save!
+        post.reload
+
+        expect(post.secondary_comment).to be_present
+        expect(post.primary_comment).to be_nil
+      end
     end
 
-    it "works with nested attributes" do
-      post = Post.new(primary_tag_attributes: { name: tag_name })
-      post.save!
-      post.reload
+    describe "has_many" do
+      it "works with direct assignment" do
+        post.secondary_comments = [ Comment.new(comment: "foo") ]
+        post.save!
 
-      expect(post.primary_tag).to be_present
-      expect(post.secondary_tag).to be_nil
-    end
+        post.reload
+        expect(post.secondary_comments.size).to eq 1
+        expect(post.primary_comments.size).to eq 0
+      end
 
-    it "works with .build" do
-      post.build_secondary_tag(name: tag_name)
-      post.save!
-      post.reload
+      it "works with <<" do
+        post.save
+        post.secondary_comments << Comment.new(comment: "foo")
 
-      expect(post.secondary_tag).to be_present
-      expect(post.primary_tag).to be_nil
+        post.reload
+        expect(post.secondary_comments.size).to eq 1
+        expect(post.primary_comments.size).to eq 0
+      end
+
+      it "works with .build" do
+        post.secondary_comments.build(comment: "foo")
+        post.save
+
+        post.reload
+        expect(post.secondary_comments.size).to eq 1
+        expect(post.primary_comments.size).to eq 0
+      end
+
+      it "works with nested attributes" do
+        post = Post.new(primary_comments_attributes: [ { comment: "foo" } ])
+        post.save!
+        post.reload
+
+        expect(post.primary_comments.size).to eq 1
+        expect(post.secondary_comments.size).to eq 0
+      end
     end
   end
 
-  describe "has_many_images" do
-    it "works with direct assignment" do
-      post.secondary_tags = [ Tag.new(name: tag_name) ]
-      post.save!
+  context "polymorphic" do
+    describe "has_one" do
+      it "works with direct assignment" do
+        post.secondary_tag = Tag.new(name: "foo")
+        post.save!
+        post.reload
 
-      post.reload
-      expect(post.secondary_tags.size).to eq 1
-      expect(post.primary_tags.size).to eq 0
+        expect(post.secondary_tag).to be_present
+        expect(post.primary_tag).to be_nil
+      end
+
+      it "works with nested attributes" do
+        post = Post.new(primary_tag_attributes: { name: "foo" })
+        post.save!
+        post.reload
+
+        expect(post.primary_tag).to be_present
+        expect(post.secondary_tag).to be_nil
+      end
+
+      it "works with .build" do
+        post.build_secondary_tag(name: "foo")
+        post.save!
+        post.reload
+
+        expect(post.secondary_tag).to be_present
+        expect(post.primary_tag).to be_nil
+      end
     end
 
-    it "works with <<" do
-      post.save
-      post.secondary_tags << Tag.new(name: tag_name)
+    describe "has_many" do
+      it "works with direct assignment" do
+        post.secondary_tags = [ Tag.new(name: "foo") ]
+        post.save!
 
-      post.reload
-      expect(post.secondary_tags.size).to eq 1
-      expect(post.primary_tags.size).to eq 0
-    end
+        post.reload
+        expect(post.secondary_tags.size).to eq 1
+        expect(post.primary_tags.size).to eq 0
+      end
 
-    it "works with .build" do
-      post.secondary_tags.build(name: tag_name)
-      post.save
+      it "works with <<" do
+        post.save
+        post.secondary_tags << Tag.new(name: "foo")
 
-      post.reload
-      expect(post.secondary_tags.size).to eq 1
-      expect(post.primary_tags.size).to eq 0
-    end
+        post.reload
+        expect(post.secondary_tags.size).to eq 1
+        expect(post.primary_tags.size).to eq 0
+      end
 
-    it "works with nested attributes" do
-      post = Post.new(primary_tags_attributes: [ { name: tag_name } ])
-      post.save!
-      post.reload
+      it "works with .build" do
+        post.secondary_tags.build(name: "foo")
+        post.save
 
-      expect(post.primary_tags.size).to eq 1
-      expect(post.secondary_tags.size).to eq 0
+        post.reload
+        expect(post.secondary_tags.size).to eq 1
+        expect(post.primary_tags.size).to eq 0
+      end
+
+      it "works with nested attributes" do
+        post = Post.new(primary_tags_attributes: [ { name: "foo" } ])
+        post.save!
+        post.reload
+
+        expect(post.primary_tags.size).to eq 1
+        expect(post.secondary_tags.size).to eq 0
+      end
     end
   end
 end

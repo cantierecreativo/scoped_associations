@@ -25,9 +25,19 @@ ActiveRecord::Schema.define do
   create_table :posts do |t|
     t.string :title
   end
+
+  create_table :comments do |t|
+    t.integer  :post_id,    null: false
+    t.string   :post_scope, null: false
+    t.string   :comment,    null: false
+  end
 end
 
 # ActiveRecord::Base.logger = Logger.new(STDOUT)
+
+class Comment < ActiveRecord::Base
+  belongs_to :post
+end
 
 class Tag < ActiveRecord::Base
   belongs_to :owner, polymorphic: true
@@ -53,5 +63,22 @@ class Post < ActiveRecord::Base
   has_many :secondary_tags, as: :owner,
                             class_name: "Tag",
                             scoped: true
+
+
+  has_one :primary_comment, class_name: "Comment",
+                            scoped: true
+
+  accepts_nested_attributes_for :primary_comment
+
+  has_one :secondary_comment, class_name: "Comment",
+                              scoped: true
+
+  has_many :primary_comments, class_name: "Comment",
+                              scoped: true
+
+  accepts_nested_attributes_for :primary_comments
+
+  has_many :secondary_comments, class_name: "Comment",
+                              scoped: true
 end
 

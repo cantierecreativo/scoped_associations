@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = ScopedAssociations::VERSION
   spec.authors       = ['Stefano Verna']
   spec.email         = ['stefano.verna@gmail.com']
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
-  spec.homepage      = ''
+  spec.description   = %q{ScopedAssociations lets you create multiple `has_to` and `has_many` associations between two ActiveRecord models.}
+  spec.summary       = %q{Create multiple `has_to` and `has_many` associations between two ActiveRecord models}
+  spec.homepage      = 'https://github.com/stefanoverna/scoped_associations'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files`.split($/)
@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'sqlite3'
 
-  spec.add_dependency 'activerecord', '>= 3.2.0'
+  spec.add_dependency 'activerecord', ['>= 3.2', '<= 4.0']
   spec.add_dependency 'activesupport'
 end
 
