@@ -23,6 +23,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'sqlite3'
 
+  spec.required_ruby_version = ">= 1.9.3"
+
   spec.add_dependency 'activerecord', ['>= 3.2', '<= 4.0']
   spec.add_dependency 'activesupport'
 end
