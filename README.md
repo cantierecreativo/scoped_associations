@@ -1,6 +1,7 @@
 # ScopedAssociations
 
 [![Build Status](https://travis-ci.org/stefanoverna/scoped_associations.png?branch=master)](https://travis-ci.org/stefanoverna/scoped_associations)
+[![Coverage Status](https://coveralls.io/repos/stefanoverna/scoped_associations/badge.png?branch=master)](https://coveralls.io/r/stefanoverna/scoped_associations?branch=master)
 
 ScopedAssociations is able to create multiple `has_to` and `has_many`
 associations between two ActiveRecord models.
