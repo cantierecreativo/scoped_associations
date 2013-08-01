@@ -22,6 +22,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'sqlite3'
+  spec.add_development_dependency 'coveralls'
 
   spec.required_ruby_version = ">= 1.9.3"
 

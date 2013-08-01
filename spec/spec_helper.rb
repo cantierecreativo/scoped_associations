@@ -2,6 +2,8 @@ require 'rubygems'
 require 'bundler'
 require 'active_record'
 require 'logger'
+require 'coveralls'
+Coveralls.wear!
 
 ROOT = File.expand_path('../', __FILE__)
 
