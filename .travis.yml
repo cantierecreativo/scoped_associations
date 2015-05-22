@@ -6,10 +6,15 @@ rvm:
   - "2.2.2"
 
 gemfile:
-  - gemfiles/activerecord30.gemfile
-  - gemfiles/activerecord40.gemfile
-  - gemfiles/activerecord41.gemfile
-  - gemfiles/activerecord42.gemfile
+  - "gemfiles/activerecord30.gemfile"
+  - "gemfiles/activerecord40.gemfile"
+  - "gemfiles/activerecord41.gemfile"
+  - "gemfiles/activerecord42.gemfile"
+
+matrix:
+ exclude:
+    - rvm: "2.2.2"
+      gemfile: "gemfiles/activerecord30.gemfile"
 
 script: "bundle exec rake spec"
 
