@@ -22,7 +22,35 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Just add `scoped: true` to your relation macro:
+
+```
+class Post < ActiveRecord::Base
+  has_one :primary_tag,
+    as: :owner,
+    class_name: "Tag",
+    scoped: true
+
+  has_many :primary_tags,
+    as: :owner,
+    class_name: "Tag",
+    scoped: true
+end
+
+## Running tests
+
+Install gems:
+
+```
+$ bundle
+$ bundle exec appraisal
+```
+
+Launch tests:
+
+```
+bundle exec appraisal rake
+```
 
 ## Contributing
 

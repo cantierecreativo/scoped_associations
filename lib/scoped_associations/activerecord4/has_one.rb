@@ -6,8 +6,8 @@ module ScopedAssociations
         super + [:scoped]
       end
 
-      def build(attributes = {})
-        reflection = ActiveRecord::VERSION::MINOR == 0 ? super() : super(attributes)
+      def build(*args)
+        reflection = super
         extend_reflection(reflection)
         reflection
       end
@@ -47,6 +47,10 @@ module ScopedAssociations
         end
 
         def association_scope
+          super.where(reflection.foreign_scope => reflection.name.to_s)
+        end
+
+        def target_scope
           super.where(reflection.foreign_scope => reflection.name.to_s)
         end
       end
