@@ -49,6 +49,10 @@ module ScopedAssociations
         def association_scope
           super.where(reflection.foreign_scope => reflection.name.to_s)
         end
+
+        def target_scope
+          super.where(reflection.foreign_scope => reflection.name.to_s)
+        end
       end
     end
   end
