@@ -7,10 +7,15 @@ ScopedAssociations is able to create multiple `has_to` and `has_many`
 associations between two ActiveRecord models.
 
 ## Installation
+Scoped Association works on Rails4+
 
 Add this line to your application's Gemfile:
 
     gem 'scoped_associations'
+    
+If you need it on a Rails3.2 project (without .joins support), add this one:
+
+	gem 'scoped_association', '0.0.5'
 
 And then execute:
 
