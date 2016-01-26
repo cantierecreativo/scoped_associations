@@ -12,6 +12,29 @@ module ScopedAssociations
         reflection
       end
 
+      def initialize(model, name, scope, options)
+        super
+        if scoped?
+          search_scope = foreign_scope(model)
+          proc_scope = proc { where(search_scope => name) }
+          if @scope.nil?
+            @scope = proc { instance_eval(&proc_scope) }
+          else
+            old_scope = @scope
+            @scope = proc { instance_eval(&proc_scope)
+                              .instance_eval(&old_scope) }
+          end
+        end
+      end
+
+      def foreign_scope(model)
+        if options[:as]
+          "#{options[:as]}_scope"
+        else
+          model.name.underscore.demodulize + "_scope"
+        end
+      end
+
       private
 
       def extend_reflection(reflection)
@@ -45,14 +68,9 @@ module ScopedAssociations
           attributes[reflection.foreign_scope] = reflection.name.to_s
           attributes
         end
-
-        def association_scope
-          super.where(reflection.foreign_scope => reflection.name.to_s)
-        end
       end
     end
   end
 end
 
 ActiveRecord::Associations::Builder::HasMany.send :include, ScopedAssociations::ActiveRecord4::HasMany
-
