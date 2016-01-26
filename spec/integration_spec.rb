@@ -3,7 +3,6 @@ require 'spec_helper'
 describe 'ScopedAssociations' do
   let(:post) { Post.new }
 
-
   context "non polymorphic" do
 
     describe "has_one" do
