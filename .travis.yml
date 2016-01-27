@@ -4,10 +4,14 @@ rvm:
   - "1.9.3"
   - "2.0.0"
   - "2.2.2"
+  - "2.3.0"
 
 gemfile:
   - "gemfiles/activerecord40.gemfile"
   - "gemfiles/activerecord41.gemfile"
   - "gemfiles/activerecord42.gemfile"
+
+before_install:
+  - gem install bundler
 
 script: "bundle exec rake spec"
