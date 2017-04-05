@@ -61,10 +61,7 @@ class Tag < ActiveRecord::Base
 end
 
 class Post < ActiveRecord::Base
-  has_one :primary_tag, as: :owner,
-          class_name: "Tag",
-          scoped: true
-
+  has_one :primary_tag, as: :owner, class_name: "Tag", scoped: true
   accepts_nested_attributes_for :primary_tag
 
   has_one :active_tag,
@@ -73,16 +70,20 @@ class Post < ActiveRecord::Base
           class_name: "Tag",
           scoped: true
 
+  has_one :secondary_tag, as: :owner, class_name: "Tag", scoped: true
 
+  has_one :primary_comment, class_name: "Comment", scoped: true
+  accepts_nested_attributes_for :primary_comment
 
-  has_one :secondary_tag, as: :owner,
-          class_name: "Tag",
+  has_one :secondary_comment, class_name: "Comment", scoped: true
+
+  has_one :active_comment,
+          -> { where(active: true) },
+          class_name: "Comment",
           scoped: true
 
-  has_many :primary_tags, as: :owner,
-           class_name: "Tag",
-           scoped: true
 
+  has_many :primary_tags, as: :owner, class_name: "Tag", scoped: true
   accepts_nested_attributes_for :primary_tags
 
   has_many :active_tags,
@@ -91,41 +92,17 @@ class Post < ActiveRecord::Base
            class_name: "Tag",
            scoped: true
 
-
-  has_many :secondary_tags,
-           as: :owner,
-           class_name: "Tag",
-           scoped: true
+  has_many :secondary_tags, as: :owner, class_name: "Tag", scoped: true
 
   has_many :comments
 
-  has_one :primary_comment,
-          class_name: "Comment",
-          scoped: true
+  has_many :primary_comments, class_name: "Comment", scoped: true
+  accepts_nested_attributes_for :primary_comments
 
-  has_one :active_comment,
-          -> { where(active: true) },
-          class_name: "Comment",
-          scoped: true
-
-  accepts_nested_attributes_for :primary_comment
-
-  has_one :secondary_comment,
-          class_name: "Comment",
-          scoped: true
-
-  has_many :primary_comments,
-           class_name: "Comment",
-           scoped: true
+  has_many :secondary_comments, class_name: "Comment", scoped: true
 
   has_many :active_comments,
            -> { where(active: true) },
-           class_name: "Comment",
-           scoped: true
-
-  accepts_nested_attributes_for :primary_comments
-
-  has_many :secondary_comments,
            class_name: "Comment",
            scoped: true
 end

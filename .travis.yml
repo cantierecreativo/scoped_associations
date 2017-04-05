@@ -10,6 +10,19 @@ gemfile:
   - "gemfiles/activerecord40.gemfile"
   - "gemfiles/activerecord41.gemfile"
   - "gemfiles/activerecord42.gemfile"
+  - "gemfiles/activerecord50.gemfile"
+  - "gemfiles/activerecord51.gemfile"
+
+matrix:
+  exclude:
+    - rvm: "1.9.3"
+      gemfile: "gemfiles/activerecord50.gemfile"
+    - rvm: "1.9.3"
+      gemfile: "gemfiles/activerecord51.gemfile"
+    - rvm: "2.0.0"
+      gemfile: "gemfiles/activerecord50.gemfile"
+    - rvm: "2.0.0"
+      gemfile: "gemfiles/activerecord51.gemfile"
 
 before_install:
   - gem install bundler
