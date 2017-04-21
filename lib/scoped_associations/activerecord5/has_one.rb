@@ -31,7 +31,7 @@ module ScopedAssociations
             "#{options[:as]}_scope"
           else
             name = active_record.name
-            name.underscore.demodulize + "_scope"
+            name.demodulize.underscore + "_scope"
           end
         end
 
